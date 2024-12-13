@@ -1,0 +1,48 @@
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+import time
+
+
+class GoogleFormAutomation:
+    def setUp(self):
+        try:
+            self.driver = webdriver.Chrome()
+            print("Browser launched successfully.")
+        except Exception as e:
+            print(f"Error initializing WebDriver: {str(e)}")
+            raise
+
+    def fill_form(self):
+        try:
+            form_url = "https://forms.gle/mSV8WEUWiBEFA4J88"
+
+            self.driver.get(form_url)
+            time.sleep(2) 
+
+            name = "John Doe" 
+            name_input = self.driver.find_element(By.XPATH, '//input[@aria-labelledby="i1 i4"]')
+            name_input.send_keys(name)
+            time.sleep(1)
+
+            usn = "4SF21IS000" 
+            usn_input = self.driver.find_element(By.XPATH, '//input[@aria-labelledby="i6 i9"]')
+            usn_input.send_keys(usn)
+            time.sleep(1)
+
+            submit_button_xpath = '//*[@id="mG61Hd"]/div[2]/div/div[3]/div[1]/div[1]/div/span/span'
+            submit_button = self.driver.find_element(By.XPATH, submit_button_xpath)
+            submit_button.click()
+            time.sleep(2)  
+            print("Form submitted successfully.")
+        except Exception as e:
+            print(f"An error occurred while filling the form: {str(e)}")
+
+    def tearDown(self):
+        if hasattr(self, 'driver'):
+            self.driver.quit()
+            print("Browser closed successfully.")
+if __name__ == "__main__":
+    automation = GoogleFormAutomation()
+    automation.setUp()
+    automation.fill_form()
+    automation.tearDown()

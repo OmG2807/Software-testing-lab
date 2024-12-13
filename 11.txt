@@ -1,0 +1,43 @@
+import time
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+
+
+class GoogleMapsAutomation:
+    def setUp(self):
+        try:
+            self.driver = webdriver.Chrome()
+        except Exception as e:
+            print(f"Error initializing WebDriver: {str(e)}")
+            raise
+
+    def search_location(self):
+        try:
+            g_link = "https://www.google.com/maps"
+            
+            ip_xpath = '//*[@id="searchboxinput"]'
+            search_button_xpath = '//*[@id="searchbox-searchbutton"]'
+            self.driver.get(g_link)
+            time.sleep(2) 
+            location = input("Enter Location: ")
+            search_input = self.driver.find_element(By.XPATH, ip_xpath)
+            search_input.send_keys(location)
+            time.sleep(1) 
+            search_button = self.driver.find_element(By.XPATH, search_button_xpath)
+            search_button.click()
+            time.sleep(5)  
+            print(f"Successfully searched for: {location}")
+        except Exception as e:
+            print(f"An error occurred during search: {str(e)}")
+
+    def tearDown(self):
+        if hasattr(self, 'driver'):
+            self.driver.quit()
+            print("Browser closed successfully.")
+
+
+if __name__ == "__main__":
+    automation = GoogleMapsAutomation()
+    automation.setUp()
+    automation.search_location()
+    automation.tearDown()

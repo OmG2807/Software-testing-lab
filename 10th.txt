@@ -1,0 +1,31 @@
+from selenium import webdriver
+from selenium.webdriver.chrome.service import Service
+from selenium.webdriver.common.by import By
+from selenium.common.exceptions import WebDriverException
+import time
+class WebPageFetcher:
+    def setUp(self):
+        try:
+            self.driver = webdriver.Chrome()
+        except WebDriverException as e:
+            print(f"Error initializing WebDriver: {str(e)}")
+            raise
+    def fetch_page(self):
+        try:
+            self.driver.get("https://www.btreesystems.com/selenium-with-python-training-in-chennai/")
+            time.sleep(2) 
+            page_source = self.driver.page_source.encode('utf-8')
+            with open('result.html', 'wb') as f:
+                f.write(page_source)
+            print("Page source successfully saved as 'result.html'.")   
+        except Exception as e:
+            print(f"An error occurred while fetching the page: {str(e)}")
+    def tearDown(self):
+        if hasattr(self, 'driver'):
+            self.driver.quit()
+            print("Browser closed successfully.")
+if __name__ == "__main__":
+    fetcher = WebPageFetcher()
+    fetcher.setUp()
+    fetcher.fetch_page()
+    fetcher.tearDown()
