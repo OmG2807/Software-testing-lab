@@ -57,8 +57,8 @@ int main() {
     } while (flag == 'n'); // Repeat input if there is an error
 
     switch (month) {
-        case 1: case 3: case 5: case 7: case 8: case 10:
-            if (day < 31)
+        case 1: case 3: case 5: case 7: case 8: 
+case 10:    if (day < 31)
                 tday = day + 1;
             else {
                 tday = 1;
